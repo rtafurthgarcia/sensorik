@@ -2,7 +2,7 @@
 set -e
 GREEN='\033[0;32m'
 NC='\033[0m' # No Color
-BASEDIR=$(dirname $0)
+MANIFEST="$(pwd)/manifest.py"
 
 if [ -d "MicroWebSrv2" ]; then
   echo -e "${GREEN}Directory exists, clearing it...${NC}"
@@ -29,7 +29,7 @@ echo -e "${GREEN}Building the firmware itself + the expected modules...${NC}"
 cd ports/stm32/
 make BOARD=ARDUINO_PORTENTA_H7 submodules
 
-make -j 8 BOARD=ARDUINO_PORTENTA_H7 FROZEN_MANIFEST="~/OneDrive/Dokumente/PoE/sensorik/manifest.py"
+make -j 8 BOARD=ARDUINO_PORTENTA_H7 FROZEN_MANIFEST="${MANIFEST}"
 echo -e "${GREEN}Build finished.${NC}"
 
 echo -e "${GREEN}Restarting into the bootloader... ${NC}"
