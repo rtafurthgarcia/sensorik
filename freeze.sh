@@ -4,13 +4,25 @@ GREEN='\033[0;32m'
 NC='\033[0m' # No Color
 MANIFEST="$(pwd)/manifest.py"
 
-if [ -d "MicroWebSrv2" ]; then
+#if [ -d "MicroWebSrv2" ]; then
+#  echo -e "${GREEN}Directory exists, clearing it...${NC}"
+#  
+#  rm -rf "MicroWebSrv2"
+#fi
+#echo -e "${GREEN}Cloning MicroWebSrv2...${NC}"
+#git clone https://github.com/jczic/MicroWebSrv2
+
+if [ -d "microdot" ]; then
   echo -e "${GREEN}Directory exists, clearing it...${NC}"
   
-  rm -rf "MicroWebSrv2"
+  rm -rf "microdot"
 fi
-echo -e "${GREEN}Cloning MicroPython...${NC}"
-git clone https://github.com/jczic/MicroWebSrv2
+echo -e "${GREEN}Cloning microdot...${NC}"
+git clone https://github.com/miguelgrinberg/microdot/
+
+mv microdot/src microdot-src
+rm -rf microdot 
+mv microdot-src microdot
 
 if [ -d "micropython" ]; then
   echo -e "${GREEN}Directory exists, clearing it...${NC}"
@@ -19,8 +31,12 @@ if [ -d "micropython" ]; then
 fi
 
 echo -e "${GREEN}Cloning MicroPython...${NC}"
-git clone https://github.com/micropython/micropython --branch v1.20.0
+git clone https://github.com/micropython/micropython
 cd micropython/
+
+#echo -e "${GREEN}Enabling threads...${NC}"
+#file_path="./ports/stm32/mpconfigport.h"
+#sed -i 's|#define MICROPY_PY_THREAD           (0)|#define MICROPY_PY_THREAD           (1)|g' "$file_path"
 
 echo -e "${GREEN}Building the cross-compiler...${NC}"
 make -C mpy-cross
@@ -42,7 +58,7 @@ make BOARD=ARDUINO_PORTENTA_H7 deploy
 
 echo -e "${GREEN}Arduino successfully frozen! ${NC}"
 
-rm -rf "MicroWebSrv2"
+rm -rf "microdot"
 rm -rf "micropython"
 
 echo -e "${GREEN}Directory cleaned! ${NC}"

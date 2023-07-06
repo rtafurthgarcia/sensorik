@@ -5,22 +5,21 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "MicroPython: connect to the device",
-            "type": "python",
-            "request": "launch",
-            "module": "mpremote",
-            "args": ["connect", "auto"],
-            "internalConsoleOptions": "openOnSessionStart",
-            "console": "internalConsole",
-            "justMyCode": true
-        },
-        {
             "name": "MicroPython: run",
             "type": "python",
             "request": "launch",
             "module": "mpremote",
             "args": ["run", "${file}"],
-            "console": "internalConsole",
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "MicroPython: copy & run",
+            "type": "python",
+            "request": "launch",
+            "module": "mpremote",
+            "args": ["fs", "cp", "${file}", ":${file}", "+", "repl"],
+            "console": "integratedTerminal",
             "justMyCode": true
         }
     ]

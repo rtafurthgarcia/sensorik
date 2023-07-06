@@ -6,7 +6,7 @@
         {
             "label": "Run freezing process",
             "type": "shell",
-            "command": "freeze.sh",
+            "command": "source venv/bin/activate && ./freeze.sh",
             "presentation": {
                 "reveal": "always",
                 "panel": "new"
