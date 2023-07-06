@@ -1,0 +1,27 @@
+{
+    // Verwendet IntelliSense zum Ermitteln möglicher Attribute.
+    // Zeigen Sie auf vorhandene Attribute, um die zugehörigen Beschreibungen anzuzeigen.
+    // Weitere Informationen finden Sie unter https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "MicroPython: connect to the device",
+            "type": "python",
+            "request": "launch",
+            "module": "mpremote",
+            "args": ["connect", "auto"],
+            "internalConsoleOptions": "openOnSessionStart",
+            "console": "internalConsole",
+            "justMyCode": true
+        },
+        {
+            "name": "MicroPython: run",
+            "type": "python",
+            "request": "launch",
+            "module": "mpremote",
+            "args": ["run", "${file}"],
+            "console": "internalConsole",
+            "justMyCode": true
+        }
+    ]
+}
