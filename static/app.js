@@ -6,10 +6,10 @@ class TemperatureDisplay extends HTMLElement {
         <div id="temperature">Loading...</div>
     `;
 
-        this.websocket = new WebSocket('ws://temperature');
+        this.websocket = new WebSocket(`ws://${location.host}/temperature`);
         this.websocket.onmessage = (event) => {
-            const data = JSON.parse(event.data);
-            this.shadowRoot.getElementById('temperature').innerText = data.temperature;
+            console.log(event.data);
+            this.shadowRoot.getElementById('temperature').innerText = `${event.data}°c`;
         };
     }
 }
@@ -23,10 +23,9 @@ class LiquidHeight extends HTMLElement {
         <div id="liquidHeight">Loading...</div>
       `;
 
-        this.websocket = new WebSocket('ws://liquid-height');
+        this.websocket = new WebSocket(`ws://${location.host}/liquid-height`);
         this.websocket.onmessage = (event) => {
-            const data = JSON.parse(event.data);
-            this.shadowRoot.getElementById('liquidHeight').innerText = data.height;
+            this.shadowRoot.getElementById('liquidHeight').innerText = `${event.data}cm`;
         };
     }
 }
@@ -40,10 +39,9 @@ class VideoFeed extends HTMLElement {
         <video id="videoFeed" autoplay></video>
       `;
 
-        this.websocket = new WebSocket('ws://video-feed');
+        this.websocket = new WebSocket(`ws://${location.host}/video-feed`);
         this.websocket.onmessage = (event) => {
-            const data = JSON.parse(event.data);
-            this.shadowRoot.getElementById('videoFeed').srcObject = data.stream;
+            this.shadowRoot.getElementById('videoFeed').srcObject = event.data;
         };
     }
 }

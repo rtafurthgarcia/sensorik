@@ -2,6 +2,8 @@ import network
 from microdot_asyncio import Microdot, send_file
 from microdot_asyncio_websocket import with_websocket
 from microdot_utemplate import render_template
+import json
+
 import random
 
 ap = network.WLAN(network.AP_IF)
@@ -23,21 +25,20 @@ async def static(request, path):
 
 @app.route('/temperature')
 @with_websocket
-def temperature(request, ws):
+async def temperature(request, ws):
     while True:
-        ws.send(random.randrange(20,25))
+        await ws.send(str(random.randrange(20,25)))
 
 @app.route('/liquid-height')
 @with_websocket
-def liquid_height(request, ws):
+async def liquid_height(request, ws):
     while True:
-        ws.send(random.randrange(20,25))
+        await ws.send(str(random.randrange(110,150)))
 
 @app.route('/video-feed')
 @with_websocket
-def videoFeed(request, ws):
+async def videoFeed(request, ws):
     while True:
-        ws.send("lmao")
-
+        await ws.send("lmao")
 
 app.run(port=80, host="0.0.0.0", debug=True)
