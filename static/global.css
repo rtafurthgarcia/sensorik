@@ -1,0 +1,8 @@
+@font-face {
+    font-family: SBB;
+    src: url(/static/SBBWeb-Roman.woff2);
+  }
+
+body {
+    font-family: SBB !important;
+}

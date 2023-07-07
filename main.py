@@ -27,7 +27,7 @@ async def static(request, path):
 @with_websocket
 async def temperature(request, ws):
     while True:
-        await ws.send(str(random.randrange(20,25)))
+        await ws.send(str(random.randrange(150,160)))
 
 @app.route('/liquid-height')
 @with_websocket
