@@ -10,16 +10,10 @@ if [ -d "lib" ]; then
   rm -rf "lib/"
 fi
 
-mkdir -p lib/microdot
+mkdir lib
 
 echo -e "${GREEN}Installing packages...${NC}"
-pip download --no-binary :all: microdot -d ./lib
-git clone https://github.com/pfalcon/utemplate ./lib/utemplate
-#pip download --no-binary :all: jinja2 -d ./lib
-#tar -xvf "$(find ./lib -name 'Jinja2*.tar.gz' -print -quit)" --strip-components=1 -C ./lib/Jinja2
-#tar -xvf "$(find ./lib -name 'MarkupSafe*.tar.gz' -print -quit)" --strip-components=1 -C ./lib/MarkupSafe
-tar -xvf "$(find ./lib -name 'microdot*.tar.gz' -print -quit)" --strip-components=1 -C ./lib/microdot
-#tar -xvf "$(find ./lib -name 'utemplate*.tar.gz' -print -quit)" --strip-components=1 -C ./lib/utemplate
+git clone https://github.com/miguelgrinberg/microdot/ lib/microdot
 
 if [ -d "micropython" ]; then
   echo -e "${GREEN}micropython directory exists, clearing it...${NC}"

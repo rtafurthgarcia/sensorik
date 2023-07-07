@@ -1,0 +1,19 @@
+{% args title %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>{{ title }}</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='static/style.css'>
+    <script src='static/app.js'></script>
+</head>
+<body>
+    <div class="grid-container">
+        <temperature-display class="grid-item"></temperature-display>
+        <liquid-height class="grid-item"></liquid-height>
+        <video-feed class="grid-item"></video-feed>
+      </div>
+</body>
+</html>
