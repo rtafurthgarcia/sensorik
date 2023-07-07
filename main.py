@@ -1,5 +1,5 @@
 import network
-from microdot.microdot import Microdot
+from microdot import Microdot
 
 ap = network.WLAN(network.AP_IF)
 ap.config(ssid="lmao_wtf_dd", password="trustmebro")
