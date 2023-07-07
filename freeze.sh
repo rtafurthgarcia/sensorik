@@ -4,39 +4,32 @@ GREEN='\033[0;32m'
 NC='\033[0m' # No Color
 MANIFEST="$(pwd)/manifest.py"
 
-#if [ -d "MicroWebSrv2" ]; then
-#  echo -e "${GREEN}Directory exists, clearing it...${NC}"
-#  
-#  rm -rf "MicroWebSrv2"
-#fi
-#echo -e "${GREEN}Cloning MicroWebSrv2...${NC}"
-#git clone https://github.com/jczic/MicroWebSrv2
-
-if [ -d "microdot" ]; then
-  echo -e "${GREEN}Directory exists, clearing it...${NC}"
+if [ -d "lib" ]; then
+  echo -e "${GREEN}lib directory exists, clearing it...${NC}"
   
-  rm -rf "microdot"
+  rm -rf "lib/"
 fi
-echo -e "${GREEN}Cloning microdot...${NC}"
-git clone https://github.com/miguelgrinberg/microdot/
 
-mv microdot/src microdot-src
-rm -rf microdot 
-mv microdot-src microdot
+mkdir -p lib/microdot
+
+echo -e "${GREEN}Installing packages...${NC}"
+pip download --no-binary :all: microdot -d ./lib
+git clone https://github.com/pfalcon/utemplate ./lib/utemplate
+#pip download --no-binary :all: jinja2 -d ./lib
+#tar -xvf "$(find ./lib -name 'Jinja2*.tar.gz' -print -quit)" --strip-components=1 -C ./lib/Jinja2
+#tar -xvf "$(find ./lib -name 'MarkupSafe*.tar.gz' -print -quit)" --strip-components=1 -C ./lib/MarkupSafe
+tar -xvf "$(find ./lib -name 'microdot*.tar.gz' -print -quit)" --strip-components=1 -C ./lib/microdot
+#tar -xvf "$(find ./lib -name 'utemplate*.tar.gz' -print -quit)" --strip-components=1 -C ./lib/utemplate
 
 if [ -d "micropython" ]; then
-  echo -e "${GREEN}Directory exists, clearing it...${NC}"
+  echo -e "${GREEN}micropython directory exists, clearing it...${NC}"
   
-  rm -rf "micropython"
+  rm -rf "micropython/"
 fi
 
 echo -e "${GREEN}Cloning MicroPython...${NC}"
 git clone https://github.com/micropython/micropython
 cd micropython/
-
-#echo -e "${GREEN}Enabling threads...${NC}"
-#file_path="./ports/stm32/mpconfigport.h"
-#sed -i 's|#define MICROPY_PY_THREAD           (0)|#define MICROPY_PY_THREAD           (1)|g' "$file_path"
 
 echo -e "${GREEN}Building the cross-compiler...${NC}"
 make -C mpy-cross
@@ -51,14 +44,14 @@ echo -e "${GREEN}Build finished.${NC}"
 echo -e "${GREEN}Restarting into the bootloader... ${NC}"
 mpremote bootloader
 
-sleep 10
+sleep 5
 
 echo -e "${GREEN}Flashing the new firmware and its submodules... ${NC}"
 make BOARD=ARDUINO_PORTENTA_H7 deploy
 
 echo -e "${GREEN}Arduino successfully frozen! ${NC}"
 
-rm -rf "microdot"
-rm -rf "micropython"
+rm -rf "lib/"
+rm -rf "micropython/"
 
 echo -e "${GREEN}Directory cleaned! ${NC}"
