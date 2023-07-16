@@ -2,15 +2,23 @@ import network
 from microdot_asyncio import Microdot, send_file
 from microdot_asyncio_websocket import with_websocket
 from microdot_utemplate import render_template
-import json
+from machine import UART
+from camera import TTLCamera
 
 import random
 
 ap = network.WLAN(network.AP_IF)
-ap.config(ssid="lmao_wtf_dd", key="trustmebro")
 ap.active(True)
+ap.config(ssid="sensorik_ap", password="trustmebro")
 
+# setup WebServer
 app = Microdot()
+
+camera = TTLCamera(UART(1, 115200))
+
+# PA9 / PA10 -> Kamera
+# PA0 -> Flüssigkeitsensor
+# PA4 -> Temperature
 
 @app.route('/')
 async def index(request):
@@ -39,6 +47,7 @@ async def liquid_height(request, ws):
 @with_websocket
 async def videoFeed(request, ws):
     while True:
-        await ws.send("lmao")
+        camera.takephoto()
+        await ws.send("data:image/jpeg;base64,{}".format(camera.savephototobase64()))
 
 app.run(port=80, host="0.0.0.0", debug=True)
