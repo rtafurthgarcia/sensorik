@@ -19,7 +19,12 @@ In case you are running this one build tool on Windows, the following supplement
 4. List all devices and find your H7 board's device ID (generally marked as a `COM` port) on Windows with `usbipd list` on a priviledged prompt
 5. Permantenly bind your device to your default running distro through `usbipd bind -f --busid $YOUR_DEVICE_ID` also on a priviledged prompt 
 6. Connect your device on an unpriviledged prompt (to be able to access the regular's user default distro) with `usbipd wsl attach -d $YOUR_DISTRO --busid $YOUR_DEVICE_ID`
+7. Make sure `lsusb` is installed on your disto
+
+If you have troubles connecting to your board, make sure your user is part of the ``tty` or `dialout` group or appropriate yourself the `/dev/ttyACMX` device with `# chown $USER:$USER /dev/ttyACMX`
 
 ## General use
 - run `deploy.sh` to deploy the current python code to your board
 - run `freeze.sh` to flash your board with the newest firmware and the required python libraries
+
+You may check whenever the board is properly connected by looking for the `/dev/ttyACMX` device (whereby X is 0, 1 or something else lol)
