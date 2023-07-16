@@ -26,9 +26,12 @@ roms = ds.scan()
 if (len(roms) == 0):
     raise RuntimeError("Couldnt find any temperature sensor!")
 
+# setup the water lvl sensor 
+waterpin = Pin("PA0")
+
 # PA9 / PA10 -> Kamera
-# PA0 -> Flüssigkeitsensor
-# PA4 -> Temperature
+# PA1 OR PA0-> Flüssigkeitsensor
+# PA4 OR PA1 -> Temperature
 
 @app.route('/')
 async def index(request):
@@ -52,7 +55,7 @@ async def temperature(request, ws):
 @with_websocket
 async def liquid_height(request, ws):
     while True:
-        await ws.send(str(random.randrange(110,150)))
+        await ws.send(str(waterpin.value()))
 
 @app.route('/video-feed')
 @with_websocket
