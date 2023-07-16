@@ -2,8 +2,10 @@ import network
 from microdot_asyncio import Microdot, send_file
 from microdot_asyncio_websocket import with_websocket
 from microdot_utemplate import render_template
-from machine import UART
+from machine import UART, Pin
 from camera import TTLCamera
+from time import sleep_ms
+from onewire import DS18B20, OneWire
 
 import random
 
@@ -14,7 +16,15 @@ ap.config(ssid="sensorik_ap", password="trustmebro")
 # setup WebServer
 app = Microdot()
 
+# setup the camera
 camera = TTLCamera(UART(1, 115200))
+print("Camera connected: v{}".format(camera.getversion()))
+
+# setup the temperature sensor
+ds = DS18B20(OneWire(Pin("PA1")))
+roms = ds.scan()
+if (len(roms) == 0):
+    raise RuntimeError("Couldnt find any temperature sensor!")
 
 # PA9 / PA10 -> Kamera
 # PA0 -> Flüssigkeitsensor
@@ -35,7 +45,8 @@ async def static(request, path):
 @with_websocket
 async def temperature(request, ws):
     while True:
-        await ws.send(str(random.randrange(150,160)))
+        for rom in roms:
+            await ws.send(str(ds.read_temp(rom)))
 
 @app.route('/liquid-height')
 @with_websocket
