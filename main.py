@@ -6,6 +6,7 @@ from machine import UART, Pin, ADC
 from camera import TTLCamera
 #from onewire import DS18B20, OneWire
 import ds18b20
+from math import trunc
 from time import sleep
 
 ap = network.WLAN(network.AP_IF)
@@ -57,7 +58,7 @@ async def static(request, path):
 async def liquid_height(request, ws):
     while True:
         sleep(1)
-        water_lvl = water_lvl_sensor.read_u16() / 65535 * 100
+        water_lvl = trunc(water_lvl_sensor.read_u16() / 65535 * 100)
         await ws.send(str(water_lvl))
 
 # @app.route('/video-feed')
