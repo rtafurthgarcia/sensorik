@@ -44,9 +44,11 @@ class TTLCamera:
 		return False
 
 	def getversion(self) -> str:
-		cmd = ''.join( map( chr, TTLCamera.getversioncommand))
+		cmd = ''.join(map(chr, TTLCamera.getversioncommand))
 		self.uart.write(cmd)
 		reply = self.uart.read(16)
+		if (reply is None):
+			raise RuntimeError("Couldnt connect myself to the camera")	
 		r = list(reply)
 		# print r
 		if self.__checkreply(r, TTLCamera.CMD_GETVERSION):
@@ -64,7 +66,7 @@ class TTLCamera:
 		return False
 
 	def __getbufferlength(self) -> int:
-		cmd = ''.join( map( chr, TTLCamera.getbufflencommand ))
+		cmd = ''.join(map(chr, TTLCamera.getbufflencommand ))
 		self.uart.write(cmd)
 		reply = self.uart.read(9)
 		r = list(reply)

@@ -25,7 +25,7 @@ class LiquidHeight extends HTMLElement {
 
         this.websocket = new WebSocket(`ws://${location.host}/liquid-height`);
         this.websocket.onmessage = (event) => {
-            this.shadowRoot.getElementById('liquidHeight').innerText = `${event.data}cm`;
+            this.shadowRoot.getElementById('liquidHeight').innerText = `${event.data}%`;
         };
     }
 }
