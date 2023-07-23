@@ -24,6 +24,8 @@ fi
 echo -e "${GREEN}Cloning MicroPython...${NC}"
 git clone https://github.com/micropython/micropython
 cd micropython/
+git fetch --all --tags
+git checkout tags/v1.20.0
 
 echo -e "${GREEN}Building the cross-compiler...${NC}"
 make -C mpy-cross
@@ -38,7 +40,7 @@ echo -e "${GREEN}Build finished.${NC}"
 echo -e "${GREEN}Restarting into the bootloader... ${NC}"
 mpremote bootloader
 
-sleep 5
+sleep 10
 
 echo -e "${GREEN}Flashing the new firmware and its submodules... ${NC}"
 make BOARD=ARDUINO_PORTENTA_H7 deploy
