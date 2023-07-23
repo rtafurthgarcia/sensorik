@@ -7,7 +7,8 @@ Sensorik webapp gathering and displaying sensor data
 1. Make sure to have python3 with venv installed.
 2. Run `source venv/bin/activate` and `pip install -r requirements.txt`
 3. Make sure the GNU ARM compiler is installed (you can find it [here](https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads))
-4. Either launch the task called "Run freezing process" or straight up run freeze.sh
+4. Install the latest realease of [dfu-util](https://dfu-util.sourceforge.net/releases/)
+5. Either launch the task called "Run freezing process" or straight up run freeze.sh
 
 The previous steps have to be actually reproduced on WSL in case you want to "freeze" your board on Windows:
 
