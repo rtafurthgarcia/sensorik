@@ -6,12 +6,19 @@ from machine import UART, Pin, ADC
 from camera import TTLCamera
 #from onewire import DS18B20, OneWire
 import ds18b20
+try:
+    import auth
+except:
+    print("Please add an auth.py file to set both the SSID and the PASS for your access point")
+    exit(2)
 from math import trunc
 from time import sleep
 
 ap = network.WLAN(network.AP_IF)
+# gotta shut it down first otherwise settings will never be applied
+ap.active(False) 
+ap.config(ssid=auth.SSID, security=2, key=auth.PASS)
 ap.active(True)
-ap.config(ssid="sensorik_ap", password="trustmebro")
 
 # setup WebServer
 app = Microdot()

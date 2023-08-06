@@ -163,3 +163,4 @@ micropython/
 lib/
 venv/
 *.pem
+auth.py
