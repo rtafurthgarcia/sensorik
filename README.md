@@ -4,9 +4,11 @@ Sensorik webapp gathering and displaying sensor data
 
 ## Setup
 
-1. Make sure to have python3 with venv installed.
+1. Make sure to have python3 with venv installed
 2. Run `source venv/bin/activate` and `pip install -r requirements.txt`
-4. Install the latest realease of [dfu-util](https://dfu-util.sourceforge.net/releases/)
+3. Install the latest realease of [dfu-util](https://dfu-util.sourceforge.net/releases/)
+4. Install the ARM compiller `gcc-arm-none-eabi` if you are on Debian or install it from the sources
+5. Create a `auth.py` file with `SSID` and `PASS` set as constants to properly configure the access point
 
 The previous steps have to be actually reproduced on WSL in case you want to "freeze" your board on Windows:
 
@@ -24,9 +26,10 @@ If you have troubles connecting to your board, make sure your user is part of th
 
 ## General use
 - run `deploy.sh` to deploy the current python code to your board
+- run `freeze.sh` to flash the latest firmware with your libraries
 
 You may check whenever the board is properly connected by looking for the `/dev/ttyACMX` device (whereby X is 0, 1 or something else lol)
 
-## Firmware install 
+## Default firmware install 
 1. Download the latest firmware from (here)[https://docs.arduino.cc/micropython/]
 2. Flash the firmware as root with `dfu-util -a 0 -d 0x2341:0x035b -D {firmware.dfu}`
