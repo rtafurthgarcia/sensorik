@@ -14,6 +14,10 @@ module("microdot_websocket_alt.py", base_path = "lib/microdot/src")
 module("microdot_websocket.py", base_path = "lib/microdot/src")
 module("microdot_wsgi.py", base_path = "lib/microdot/src")
 
-package("utemplate", base_path="lib/microdot/libs/common")
-module("ds18b20.py")
+module("compiled.py", base_path="lib/utemplate/utemplate")
+module("recompile.py", base_path="lib/utemplate/utemplate")
+module("source.py", base_path="lib/utemplate/utemplate")
+
+package("utemplate", base_path="lib/utemplate")
+
 module("camera.py")

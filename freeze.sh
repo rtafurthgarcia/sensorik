@@ -14,6 +14,7 @@ mkdir lib
 
 echo -e "${GREEN}Installing packages...${NC}"
 git clone https://github.com/miguelgrinberg/microdot/ lib/microdot
+git clone https://github.com/pfalcon/utemplate/ lib/utemplate
 
 if [ -d "micropython" ]; then
   echo -e "${GREEN}micropython directory exists, clearing it...${NC}"
@@ -47,7 +48,12 @@ make BOARD=ARDUINO_PORTENTA_H7 deploy
 
 echo -e "${GREEN}Arduino successfully frozen! ${NC}"
 
+
 rm -rf "lib/"
 rm -rf "micropython/"
-
 echo -e "${GREEN}Directory cleaned! ${NC}"
+
+echo -e "${GREEN}Installing ds18x20 drivers on the board ${NC}"
+mpremote mip install ds18x20 
+
+echo -e "${GREEN}Firmware setup successful! ${NC}"

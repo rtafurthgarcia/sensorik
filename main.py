@@ -3,16 +3,17 @@ from microdot_asyncio import Microdot, send_file
 from microdot_asyncio_websocket import with_websocket
 from microdot_utemplate import render_template
 from machine import UART, Pin, ADC
+import onewire 
 from camera import TTLCamera
 #from onewire import DS18B20, OneWire
-import ds18b20
+import ds18x20
 try:
     import auth
 except:
     print("Please add an auth.py file to set both the SSID and the PASS for your access point")
     exit(2)
 from math import trunc
-from time import sleep
+from time import sleep, sleep_ms
 
 ap = network.WLAN(network.AP_IF)
 # gotta shut it down first otherwise settings will never be applied
@@ -29,13 +30,17 @@ app = Microdot()
 
 # setup the temperature sensor
 #ds = DS18B20(OneWire(Pin("PA1")))
-#roms = ds.scan()
+#roms = ds.scan()¨
 #if (len(roms) == 0):
 #    raise RuntimeError("Couldnt find any temperature sensor!")
 #sensor=ds18b20.ds(1,'f',12)
 
 # setup the water lvl sensor 
-water_lvl_sensor = ADC(1)
+water_lvl_sensor = ADC(0)
+
+# setup the temperature sensor 
+temperature_sensor = ds18x20.DS18X20(onewire.OneWire(Pin(Pin.board.PH15))) 
+temperature_outputs = temperature_sensor.scan()  
 
 # PA9 / PA10 -> Kamera
 # PA1-> Flüssigkeitsensor
@@ -52,13 +57,15 @@ async def static(request, path):
         return 'Not found', 404
     return send_file('static/' + path, max_age=86400)
 
-# @app.route('/temperature')
-# @with_websocket
-# async def temperature(request, ws):
-#     while True:
-#         for rom in roms:
-#             #print(ds.read_temp(rom))
-#             await ws.send(str(ds18b20.read(sensor)))
+@app.route('/temperature')
+@with_websocket
+async def temperature(request, ws):
+    while True:
+        temperature_sensor.convert_temp()
+        sleep(1)
+        for output in temperature_outputs:
+            temperature = trunc(temperature_sensor.read_temp(output))
+            await ws.send(str(temperature))
 
 @app.route('/liquid-height')
 @with_websocket
