@@ -48,12 +48,15 @@ make BOARD=ARDUINO_PORTENTA_H7 deploy
 
 echo -e "${GREEN}Arduino successfully frozen! ${NC}"
 
+cd ../../..
 
 rm -rf "lib/"
 rm -rf "micropython/"
 echo -e "${GREEN}Directory cleaned! ${NC}"
 
 echo -e "${GREEN}Installing ds18x20 drivers on the board ${NC}"
+
+sleep 3
 mpremote mip install ds18x20 
 
 echo -e "${GREEN}Firmware setup successful! ${NC}"

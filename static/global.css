@@ -1,8 +1,12 @@
 @font-face {
-    font-family: SBB;
-    src: url(/static/SBBWeb-Roman.woff2);
-  }
+  font-family: SBB;
+  src: url(/static/SBBWeb-Roman.woff2);
+}
 
 body {
-    font-family: SBB !important;
+  font-family: SBB !important;
+}
+
+.error {
+  color: #ef4444;
 }

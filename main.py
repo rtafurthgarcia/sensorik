@@ -4,7 +4,7 @@ from microdot_asyncio_websocket import with_websocket
 from microdot_utemplate import render_template
 from machine import UART, Pin, ADC
 import onewire 
-from camera import TTLCamera
+#from vc0706 import VC0706
 #from onewire import DS18B20, OneWire
 import ds18x20
 try:
@@ -25,7 +25,8 @@ ap.active(True)
 app = Microdot()
 
 # setup the camera
-#camera = TTLCamera(UART(1, 115200))
+#camera = VC0706(115200, 100)
+#print(camera.version)
 #print("Camera connected: v{}".format(camera.getversion()))
 
 # setup the temperature sensor
@@ -62,9 +63,10 @@ async def static(request, path):
 async def temperature(request, ws):
     while True:
         temperature_sensor.convert_temp()
-        sleep(1)
+        sleep_ms(750)
         for output in temperature_outputs:
             temperature = trunc(temperature_sensor.read_temp(output))
+            print("temperature is at: " + str(temperature))
             await ws.send(str(temperature))
 
 @app.route('/liquid-height')
@@ -73,13 +75,14 @@ async def liquid_height(request, ws):
     while True:
         sleep(1)
         water_lvl = trunc(water_lvl_sensor.read_u16() / 65535 * 100)
+        print("water level is at: " + str(water_lvl))
         await ws.send(str(water_lvl))
 
-# @app.route('/video-feed')
-# @with_websocket
-# async def videoFeed(request, ws):
-#     while True:
-#         camera.takephoto()
-#         await ws.send("data:image/jpeg;base64,{}".format(camera.savephototobase64()))
+@app.route('/video-feed')
+@with_websocket
+async def videoFeed(request, ws):
+    while True:
+        camera.takephoto()
+        await ws.send("data:image/jpeg;base64,{}".format(camera.savephototobase64()))
 
 app.run(port=80, host="0.0.0.0", debug=True)

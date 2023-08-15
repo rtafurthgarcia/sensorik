@@ -20,4 +20,4 @@ module("source.py", base_path="lib/utemplate/utemplate")
 
 package("utemplate", base_path="lib/utemplate")
 
-module("camera.py")
+#module("camera.py")
